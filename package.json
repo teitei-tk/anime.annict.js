@@ -10,22 +10,29 @@
   ],
   "scripts": {
     "build": "yarn lint && tsc",
-    "lint": "tslint --project .",
+    "lint": "eslint 'src/**/*' '__tests__/**/*'",
+    "lint:fix": "yarn lint --fix",
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "graphql": "^15.0.0"
   },
   "devDependencies": {
-    "@types/graphql": "^14.5.0",
     "@types/jest": "^25.1.5",
     "@types/node": "^13.11.0",
-    "graphql": "^15.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
     "jest": "^25.2.6",
+    "lint-staged": "^10.1.1",
     "prettier": "^2.0.2",
     "ts-jest": "^25.3.0",
-    "tslint": "^6.1.1",
-    "tslint-plugin-prettier": "^2.3.0",
     "typescript": "^3.8.3"
   },
   "jest": {
@@ -38,6 +45,17 @@
     },
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "yarn lint:fix",
+      "git add"
     ]
   }
 }

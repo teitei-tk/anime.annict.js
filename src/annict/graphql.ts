@@ -1,32 +1,30 @@
 import * as Axios from "axios";
 import { ExecutionResult } from "graphql";
 
-import {
-  IClientInterface,
-  IGraphQLClientOption,
-  IGraphQLRequestQuery
-} from ".";
+import { ClientInterface, GraphQLClientOption, GraphQLRequestQuery } from ".";
 
-export class GraphQLClient implements IClientInterface {
+export class GraphQLClient implements ClientInterface {
   readonly client: Axios.AxiosInstance;
 
-  constructor(opt: IGraphQLClientOption) {
+  constructor(opt: GraphQLClientOption) {
     const headers = {
       ...opt.headers,
       ...{
-        Authorization: `Bearer ${opt.accessToken}`
-      }
+        Authorization: `Bearer ${opt.accessToken}`,
+      },
     };
 
     this.client = Axios.default.create({
       baseURL: opt.graphQLEndpoint,
-      headers
+      headers,
     });
   }
 
-  request(query: IGraphQLRequestQuery): Promise<ExecutionResult> {
-    return this.client.post("graphql", {
-      query
+  request<T extends ExecutionResult>(
+    query: GraphQLRequestQuery
+  ): Promise<Axios.AxiosResponse<T>> {
+    return this.client.post<T>("graphql", {
+      query,
     });
   }
 }
