@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "yarn lint && tsc",
-    "lint": "tslint --project .",
+    "lint": "eslint 'src/**/*' '__tests__/**/*'",
     "test": "jest"
   },
   "dependencies": {
@@ -20,6 +20,13 @@
     "@types/graphql": "^14.5.0",
     "@types/jest": "^25.1.5",
     "@types/node": "^13.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "graphql": "^15.0.0",
     "jest": "^25.2.6",
     "prettier": "^2.0.2",
