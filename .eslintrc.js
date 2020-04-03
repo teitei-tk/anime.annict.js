@@ -25,7 +25,7 @@ module.exports = {
     tsconfigRootDir: __dirname
   },
   rules: {
-    "no-console": "off",
+    "no-console": 1,
     "no-unused-vars": ["error", { ignoreModules: true }],
     "@typescript-eslint/no-unused-vars": [
       "error",
@@ -38,6 +38,7 @@ module.exports = {
     "node/no-unsupported-features/es-syntax": [
       "error",
       {
+        version: ">=12.0.0",
         ignores: ["modules"]
       }
     ],

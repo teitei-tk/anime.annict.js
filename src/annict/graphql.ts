@@ -1,10 +1,10 @@
 import * as Axios from "axios";
-import { ExecutionResult } from "graphql";
+import { ExecutionResult } from "graphql/execution";
 
 import {
   IClientInterface,
   IGraphQLClientOption,
-  IGraphQLRequestQuery,
+  IGraphQLRequestQuery
 } from ".";
 
 export class GraphQLClient implements IClientInterface {
@@ -14,19 +14,19 @@ export class GraphQLClient implements IClientInterface {
     const headers = {
       ...opt.headers,
       ...{
-        Authorization: `Bearer ${opt.accessToken}`,
-      },
+        Authorization: `Bearer ${opt.accessToken}`
+      }
     };
 
     this.client = Axios.default.create({
       baseURL: opt.graphQLEndpoint,
-      headers,
+      headers
     });
   }
 
   request(query: IGraphQLRequestQuery): Promise<ExecutionResult> {
     return this.client.post("graphql", {
-      query,
+      query
     });
   }
 }
