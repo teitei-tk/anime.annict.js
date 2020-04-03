@@ -1,24 +1,21 @@
 import * as Axios from "axios";
-import { ExecutionResult } from "graphql";
 
-export type IGraphQLAccessToken = string;
-export type IGraphQLRequestQuery = string;
+export type GraphQLAccessToken = string;
+export type GraphQLRequestQuery = string;
 
 export type SeasonName = "AUTUMN" | "SPRING" | "SUMMER" | "WINTER";
 export type Media = "MOVIE" | "OTHER" | "OVA" | "TV" | "WEB";
 
-export interface IClientInterface {
+export interface ClientInterface {
   client: Axios.AxiosInstance;
-
-  request(query: IGraphQLRequestQuery): Promise<ExecutionResult>;
 }
 
-export interface IGraphQLClientOption {
-  accessToken: IGraphQLAccessToken;
+export interface GraphQLClientOption {
+  accessToken: GraphQLAccessToken;
   graphQLEndpoint: string;
   headers?: {
     "Content-Type": string;
   };
 }
 
-export type IGraphQLSchema = string;
+export type GraphQLSchema = string;

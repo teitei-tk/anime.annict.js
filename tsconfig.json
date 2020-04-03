@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["./src/*"]
+      "*": ["./src/*", "./__tests__/*"]
     },
     "outDir": "./lib",
     "rootDir": "./src",

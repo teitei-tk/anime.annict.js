@@ -1,12 +1,12 @@
-import { GraphQLClient, Media, SeasonName } from ".";
+import { GraphQLClient, GraphQLRequestQuery, Media, SeasonName } from ".";
+import { GraphQLError, ExecutionResult } from "graphql";
 
 export const buildSeasonQuery = (params: {
   seasonYear: number;
   seasonName: SeasonName;
-}) => {
+}): GraphQLRequestQuery => {
   const season = `${params.seasonYear}-${params.seasonName}`;
-
-  return `searchWorks(seasons: ["${season}"], orderBy: { field: WATCHERS_COUNT, direction: DESC }) {
+  const query = `searchWorks(seasons: [$season], orderBy: { field: WATCHERS_COUNT, direction: DESC }) {
     edges {
       node {
         annictId
@@ -33,9 +33,14 @@ export const buildSeasonQuery = (params: {
       }
     }
   }`;
+
+  return JSON.stringify({
+    query,
+    variables: { season },
+  });
 };
 
-export interface ISeasonQueryResult {
+export interface SeasonQueryResult extends ExecutionResult {
   data: {
     searchWorks: {
       edges: Array<{
@@ -67,7 +72,7 @@ export interface ISeasonQueryResult {
 }
 
 export class Domain {
-  readonly client: GraphQLClient;
+  private readonly client: GraphQLClient;
 
   constructor(client: GraphQLClient) {
     this.client = client;
@@ -76,10 +81,13 @@ export class Domain {
   async findBySeason(
     seasonYear: number,
     seasonName: SeasonName
-  ): Promise<ISeasonQueryResult> {
+  ): Promise<SeasonQueryResult | readonly GraphQLError[]> {
     const query = buildSeasonQuery({ seasonYear, seasonName });
-    const r = await this.client.request(query);
+    const r = await this.client.request<SeasonQueryResult>(query);
+    if (r.data.errors.length > 0) {
+      return r.data.errors;
+    }
 
-    return r.data as ISeasonQueryResult;
+    return r.data;
   }
 }
