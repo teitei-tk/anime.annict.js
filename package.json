@@ -28,7 +28,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.2",
     "graphql": "^15.0.0",
+    "husky": "^4.2.3",
     "jest": "^25.2.6",
+    "lint-staged": "^10.1.1",
     "prettier": "^2.0.2",
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3"
@@ -43,6 +45,17 @@
     },
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "yarn lint --fix",
+      "git add"
     ]
   }
 }
