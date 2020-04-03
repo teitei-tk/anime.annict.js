@@ -1,7 +1,7 @@
 import { GraphQLClient, Media, SeasonName } from ".";
 
 export const buildSeasonQuery = (params: {
-  seasonYear: Number;
+  seasonYear: number;
   seasonName: SeasonName;
 }) => {
   const season = `${params.seasonYear}-${params.seasonName}`;
@@ -40,16 +40,16 @@ export interface ISeasonQueryResult {
     searchWorks: {
       edges: Array<{
         node: {
-          annictId: Number;
+          annictId: number;
           title: string;
           seasonName: SeasonName;
-          seasonYear: Number;
+          seasonYear: number;
           media: Media;
           programs: {
             edges: Array<{
               node: {
                 episode: {
-                  number: Number;
+                  number: number;
                   numberText: string;
                 };
               };
@@ -74,7 +74,7 @@ export class Domain {
   }
 
   async findBySeason(
-    seasonYear: Number,
+    seasonYear: number,
     seasonName: SeasonName
   ): Promise<ISeasonQueryResult> {
     const query = buildSeasonQuery({ seasonYear, seasonName });
