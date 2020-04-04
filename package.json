@@ -1,6 +1,6 @@
 {
   "name": "@teitei-tk/anime.annict.js",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "repository": "ssh://git@github.com/teitei-tk/anime.annict.js.git",
   "author": "teitei-tk <teitei.tk@gmail.com>",
