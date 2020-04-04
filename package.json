@@ -1,6 +1,6 @@
 {
   "name": "@teitei-tk/anime.annict.js",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "main": "lib/index.js",
   "repository": "ssh://git@github.com/teitei-tk/anime.annict.js.git",
   "author": "teitei-tk <teitei.tk@gmail.com>",
@@ -12,7 +12,9 @@
     "build": "yarn lint && tsc",
     "lint": "eslint 'src/**/*' '__tests__/**/*'",
     "lint:fix": "yarn lint --fix",
-    "test": "jest"
+    "test": "jest",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -23,6 +25,8 @@
     "@types/node": "^13.11.0",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-jest": "^23.8.2",
@@ -32,6 +36,7 @@
     "jest": "^25.2.6",
     "lint-staged": "^10.1.1",
     "prettier": "^2.0.2",
+    "semantic-release": "^17.0.4",
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3"
   },
@@ -53,9 +58,15 @@
     }
   },
   "lint-staged": {
+    "*": "git-cz",
     "*.{js,ts}": [
       "yarn lint:fix",
       "git add"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
