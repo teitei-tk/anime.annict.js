@@ -10,10 +10,10 @@
   ],
   "scripts": {
     "build": "yarn lint && tsc",
-    "lint": "eslint 'src/**/*' '__tests__/**/*'",
+    "lint": "eslint 'src/**/*'",
     "lint:fix": "yarn lint --fix",
     "test": "jest",
-    "commit": "git-cz",
+    "commit": "yarn git-cz",
     "release": "semantic-release"
   },
   "dependencies": {
@@ -57,11 +57,10 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook"
     }
   },
   "lint-staged": {
-    "*": "git-cz",
     "*.{js,ts}": [
       "yarn lint:fix",
       "git add"

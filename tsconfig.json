@@ -3,12 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["./src/*", "./__tests__/*"]
+      "*": ["./src/*"]
     },
     "outDir": "./lib",
     "rootDir": "./src",
     "lib": ["esnext"]
   },
-  "include": ["./src/**/*", "./__tests__/**/*"],
+  "include": ["./src/**/*"],
   "exclude": ["node_modules", "lib"]
 }
