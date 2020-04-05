@@ -1,13 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "*": ["./src/*"]
-    },
-    "outDir": "./lib",
+    "baseUrl": "./src",
     "rootDir": "./src",
-    "lib": ["esnext"]
+    "outDir": "./lib",
+    "lib": ["ESNEXT"]
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules", "lib"]
