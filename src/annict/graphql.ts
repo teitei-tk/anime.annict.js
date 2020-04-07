@@ -7,16 +7,14 @@ export class GraphQLClient implements ClientInterface {
   readonly client: Axios.AxiosInstance;
 
   constructor(opt: GraphQLClientOption) {
-    const headers = {
-      ...opt.headers,
-      ...{
-        Authorization: `Bearer ${opt.accessToken}`,
-      },
-    };
-
     this.client = Axios.default.create({
-      baseURL: opt.graphQLEndpoint,
-      headers,
+      baseURL: opt.graphQLEndpoint || "https://api.annict.com/",
+      headers: {
+        ...opt.headers,
+        ...{
+          Authorization: `Bearer ${opt.accessToken}`,
+        },
+      },
     });
   }
 

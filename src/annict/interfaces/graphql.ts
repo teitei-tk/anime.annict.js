@@ -12,7 +12,7 @@ export interface ClientInterface {
 
 export interface GraphQLClientOption {
   accessToken: GraphQLAccessToken;
-  graphQLEndpoint: string;
+  graphQLEndpoint?: string;
   headers?: {
     "Content-Type": string;
   };
