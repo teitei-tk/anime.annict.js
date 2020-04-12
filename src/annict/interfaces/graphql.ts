@@ -3,7 +3,8 @@ import * as Axios from "axios";
 export type GraphQLAccessToken = string;
 export type GraphQLRequestQuery = string;
 
-export type SeasonName = "AUTUMN" | "SPRING" | "SUMMER" | "WINTER";
+export type SeasonNameRequest = "autumn" | "spring" | "summer" | "winter";
+export type SeasonNameResponse = "AUTUMUN" | "SPRING" | "SUMMER" | "WINTER";
 export type Media = "MOVIE" | "OTHER" | "OVA" | "TV" | "WEB";
 
 export interface ClientInterface {
