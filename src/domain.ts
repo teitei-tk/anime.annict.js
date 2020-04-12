@@ -1,43 +1,45 @@
-import { GraphQLClient, GraphQLRequestQuery, Media, SeasonName } from ".";
-import { GraphQLError, ExecutionResult } from "graphql";
+import {
+  GraphQLClient,
+  GraphQLRequestQuery,
+  Media,
+  SeasonNameRequest,
+  SeasonNameResponse,
+} from ".";
+import { ExecutionResult } from "graphql";
 
-export const buildSeasonQuery = (params: {
-  seasonYear: number;
-  seasonName: SeasonName;
+export type Season = {
+  readonly seasonYear: number;
+  readonly seasonName: SeasonNameRequest;
+};
+
+export const buildSeasonsQuery = (params: {
+  seasons: Season[];
+  first: number;
 }): GraphQLRequestQuery => {
-  const season = `${params.seasonYear}-${params.seasonName}`;
-  const query = `searchWorks(seasons: [$season], orderBy: { field: WATCHERS_COUNT, direction: DESC }) {
-    edges {
-      node {
-        annictId
-        title
-        watchersCount
-        seasonName
-        seasonYear
-        media
-        programs(orderBy: { field: STARTED_AT, direction: ASC }) {
-          edges {
-            node {
-              episode {
-                number
-                numberText
-              }
-              channel {
-                id
-                name
-              }
-              startedAt
-            }
-          }
+  const seasons = params.seasons
+    .map((value) => {
+      return `"${value.seasonYear}-${value.seasonName}"`;
+    })
+    .join(",");
+
+  const query = `
+  {
+    searchWorks(seasons: [${seasons}], orderBy: { field: WATCHERS_COUNT, direction: DESC }, first: ${params.first}) {
+      edges {
+        node {
+          annictId
+          title
+          watchersCount
+          seasonName
+          seasonYear
+          media
         }
       }
     }
-  }`;
+  }
+  `;
 
-  return JSON.stringify({
-    query,
-    variables: { season },
-  });
+  return query;
 };
 
 export interface SeasonQueryResult extends ExecutionResult {
@@ -47,24 +49,10 @@ export interface SeasonQueryResult extends ExecutionResult {
         node: {
           annictId: number;
           title: string;
-          seasonName: SeasonName;
+          watchersCount: number;
+          seasonName: SeasonNameResponse;
           seasonYear: number;
           media: Media;
-          programs: {
-            edges: Array<{
-              node: {
-                episode: {
-                  number: number;
-                  numberText: string;
-                };
-              };
-              channel: {
-                id: string;
-                name: string;
-              };
-              startedAt: string;
-            }>;
-          };
         };
       }>;
     };
@@ -78,16 +66,26 @@ export class Domain {
     this.client = client;
   }
 
-  async findBySeason(
-    seasonYear: number,
-    seasonName: SeasonName
-  ): Promise<SeasonQueryResult | readonly GraphQLError[]> {
-    const query = buildSeasonQuery({ seasonYear, seasonName });
-    const r = await this.client.request<SeasonQueryResult>(query);
-    if (r.data.errors.length > 0) {
-      return r.data.errors;
-    }
+  async findBySeason(param: {
+    season: Season;
+    first: number;
+  }): Promise<SeasonQueryResult> {
+    const query = buildSeasonsQuery({
+      seasons: [param.season],
+      first: param.first,
+    });
+    const response = await this.client.request<SeasonQueryResult>(query);
 
-    return r.data;
+    return response.data;
+  }
+
+  async findBySeasons(params: {
+    seasons: Season[];
+    first: number;
+  }): Promise<SeasonQueryResult> {
+    const query = buildSeasonsQuery(params);
+    const response = await this.client.request<SeasonQueryResult>(query);
+
+    return response.data;
   }
 }
