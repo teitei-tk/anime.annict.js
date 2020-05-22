@@ -11,8 +11,8 @@ describe("annict", () => {
     });
 
     describe("request", () => {
-      const query = `query {
-        searchWorks(seasons: ["2018-autumn"], orderBy: { field: WATCHERS_COUNT, direction: DESC }, first: 3) {
+      const query = `query ($season: String!, $first: Int) {
+        searchWorks(seasons: [$season], orderBy: { field: WATCHERS_COUNT, direction: DESC }, first: $first) {
           edges {
             node {
               annictId
@@ -21,6 +21,11 @@ describe("annict", () => {
           }
         }
       }`;
+
+      const variables = {
+        season: "2018-autumn",
+        first: 1,
+      };
 
       type ResponseType = {
         data: {
@@ -60,12 +65,13 @@ describe("annict", () => {
         })
           .post("/graphql", {
             query,
+            variables,
           })
           .reply(200, responseData);
       });
 
       it("when graphql request", async () => {
-        const response = await client.request<ResponseType>(query);
+        const response = await client.request<ResponseType>(query, variables);
 
         expect(response.data).toMatchObject(responseData);
       });
