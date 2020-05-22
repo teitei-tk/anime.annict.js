@@ -3,6 +3,10 @@ import { ExecutionResult } from "graphql";
 
 import { ClientInterface, GraphQLClientOption, GraphQLRequestQuery } from ".";
 
+export type Variables = {
+  [key: string]: unknown;
+};
+
 export class GraphQLClient implements ClientInterface {
   readonly client: Axios.AxiosInstance;
 
@@ -19,10 +23,12 @@ export class GraphQLClient implements ClientInterface {
   }
 
   request<T extends ExecutionResult>(
-    query: GraphQLRequestQuery
+    query: GraphQLRequestQuery,
+    variables?: Variables
   ): Promise<Axios.AxiosResponse<T>> {
     return this.client.post<T>("graphql", {
       query,
+      variables: variables ? variables : undefined,
     });
   }
 }
